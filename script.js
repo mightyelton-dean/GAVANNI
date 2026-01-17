@@ -1,3 +1,219 @@
+// ========================================
+// MODERN ENHANCEMENTS
+// ========================================
+
+// Preloader
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('preloader');
+  setTimeout(() => {
+    preloader.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }, 2000);
+});
+
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const cursorFollower = document.getElementById('cursor-follower');
+
+if (cursor && cursorFollower) {
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    
+    setTimeout(() => {
+      cursorFollower.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }, 100);
+  });
+
+  // Cursor hover effects
+  const hoverElements = document.querySelectorAll('a, button, .track-card, .video-card, .merch-card');
+  hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hover');
+      cursorFollower.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover');
+      cursorFollower.classList.remove('hover');
+    });
+  });
+}
+
+// Scroll Progress Indicator
+const scrollProgress = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  if (scrollProgress) {
+    scrollProgress.style.width = `${progress}%`;
+  }
+});
+
+// Back to Top Button
+const backToTop = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    backToTop?.classList.add('visible');
+  } else {
+    backToTop?.classList.remove('visible');
+  }
+});
+
+if (backToTop) {
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+// Particles.js Configuration
+if (typeof particlesJS !== 'undefined') {
+  particlesJS('particles-js', {
+    particles: {
+      number: {
+        value: 80,
+        density: {
+          enable: true,
+          value_area: 800
+        }
+      },
+      color: {
+        value: '#f4a460'
+      },
+      shape: {
+        type: 'circle'
+      },
+      opacity: {
+        value: 0.3,
+        random: true,
+        anim: {
+          enable: true,
+          speed: 1,
+          opacity_min: 0.1,
+          sync: false
+        }
+      },
+      size: {
+        value: 3,
+        random: true,
+        anim: {
+          enable: true,
+          speed: 2,
+          size_min: 0.1,
+          sync: false
+        }
+      },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: '#f4a460',
+        opacity: 0.2,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 2,
+        direction: 'none',
+        random: false,
+        straight: false,
+        out_mode: 'out',
+        bounce: false
+      }
+    },
+    interactivity: {
+      detect_on: 'canvas',
+      events: {
+        onhover: {
+          enable: true,
+          mode: 'grab'
+        },
+        onclick: {
+          enable: true,
+          mode: 'push'
+        },
+        resize: true
+      },
+      modes: {
+        grab: {
+          distance: 140,
+          line_linked: {
+            opacity: 0.5
+          }
+        },
+        push: {
+          particles_nb: 4
+        }
+      }
+    },
+    retina_detect: true
+  });
+}
+
+// GSAP Animations
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero title animation
+  gsap.from('.hero-title', {
+    opacity: 0,
+    y: 100,
+    duration: 1.5,
+    ease: 'power4.out',
+    delay: 0.5
+  });
+
+  // Section reveal animations
+  gsap.utils.toArray('section').forEach((section, index) => {
+    if (index > 0) {
+      gsap.from(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          end: 'top 20%',
+          toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power2.out'
+      });
+    }
+  });
+
+  // Parallax effect for hero
+  gsap.to('.hero-overlay', {
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    },
+    opacity: 1,
+    y: 150
+  });
+}
+
+// Vanilla Tilt for cards
+if (typeof VanillaTilt !== 'undefined') {
+  VanillaTilt.init(document.querySelectorAll('.track-card, .merch-card, .video-card'), {
+    max: 10,
+    speed: 400,
+    glare: true,
+    'max-glare': 0.3
+  });
+}
+
+// Initialize GLightbox for videos
+if (typeof GLightbox !== 'undefined') {
+  const lightbox = GLightbox({
+    touchNavigation: true,
+    loop: true,
+    autoplayVideos: true
+  });
+}
+
 // Initialize AOS (Animate On Scroll) Library
 AOS.init({
   duration: 1000,
@@ -65,19 +281,25 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Music Play/Pause for main track
+// Music Play/Pause for main track with vinyl animation
 if (mainPlayBtn && audioPlayer && playIcon) {
+  const trackArtwork = document.querySelector('.track-artwork');
+  
   mainPlayBtn.addEventListener("click", () => {
     if (audioPlayer.paused) {
       audioPlayer.play();
       playIcon.className = "fas fa-pause";
+      trackArtwork?.classList.add('playing');
     } else {
       audioPlayer.pause();
       playIcon.className = "fas fa-play";
+      trackArtwork?.classList.remove('playing');
     }
   });
+  
   audioPlayer.addEventListener("ended", () => {
     playIcon.className = "fas fa-play";
+    trackArtwork?.classList.remove('playing');
   });
 }
 
@@ -165,13 +387,16 @@ function updateCurrentTrack(trackIndex) {
 }
 
 function togglePlayPause() {
+  const trackArtwork = document.querySelector('.track-artwork');
   isPlaying = !isPlaying;
 
   if (isPlaying) {
     playIcon.className = "fas fa-pause";
+    trackArtwork?.classList.add('playing');
     startProgressAnimation();
   } else {
     playIcon.className = "fas fa-play";
+    trackArtwork?.classList.remove('playing');
     stopProgressAnimation();
   }
 }
@@ -566,8 +791,36 @@ function setupImageSlideshow() {
   setInterval(switchImage, 2000);
 }
 
+// Lazy Loading Images
+function setupLazyLoading() {
+  const images = document.querySelectorAll('img[data-src]');
+  
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.add('loaded');
+        observer.unobserve(img);
+      }
+    });
+  });
+  
+  images.forEach(img => imageObserver.observe(img));
+}
+
+// Image optimization - add loading="lazy" to all images
+function optimizeImages() {
+  const images = document.querySelectorAll('img:not([loading])');
+  images.forEach(img => {
+    img.setAttribute('loading', 'lazy');
+  });
+}
+
 // Initialize all functionality when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+  setupLazyLoading();
+  optimizeImages();
   setupFormLabels();
   setupNewsletter();
   setupParallax();
@@ -599,41 +852,45 @@ window.addEventListener("resize", () => {
 
 // Social Media Link Handlers
 document.addEventListener("click", (e) => {
-  if (e.target.closest(".social-link")) {
+  const link = e.target.closest(".social-link");
+  if (!link) return;
+
+  const href = link.getAttribute("href");
+  const platform = link.querySelector("i")?.className || "";
+
+  let platformName = "social media";
+  if (platform.includes("spotify")) platformName = "Spotify";
+  else if (platform.includes("apple")) platformName = "Apple Music";
+  else if (platform.includes("youtube")) platformName = "YouTube";
+  else if (platform.includes("instagram")) platformName = "Instagram";
+  else if (platform.includes("twitter")) platformName = "Twitter";
+  else if (platform.includes("facebook")) platformName = "Facebook";
+  else if (platform.includes("tiktok")) platformName = "TikTok";
+  else if (platform.includes("soundcloud")) platformName = "SoundCloud";
+
+  showNotification(
+    `Opening ${platformName}... Follow Gavanni for the latest updates!`
+  );
+
+  // Only block default navigation for placeholder links (e.g., "#").
+  if (!href || href === "#") {
     e.preventDefault();
-    const link = e.target.closest(".social-link");
-    const platform = link.querySelector("i").className;
-
-    let platformName = "social media";
-    if (platform.includes("spotify")) platformName = "Spotify";
-    else if (platform.includes("apple")) platformName = "Apple Music";
-    else if (platform.includes("youtube")) platformName = "YouTube";
-    else if (platform.includes("instagram")) platformName = "Instagram";
-    else if (platform.includes("twitter")) platformName = "Twitter";
-    else if (platform.includes("facebook")) platformName = "Facebook";
-    else if (platform.includes("tiktok")) platformName = "TikTok";
-    else if (platform.includes("soundcloud")) platformName = "SoundCloud";
-
-    showNotification(
-      `Opening ${platformName}... Follow Gavanni for the latest updates!`
-    );
-
-    // In a real application, these would link to actual social media profiles
-    // window.open('https://spotify.com/artist/gavanni', '_blank');
   }
 });
 
 // Platform Link Handlers
 document.addEventListener("click", (e) => {
-  if (e.target.closest(".platform-link")) {
+  const link = e.target.closest(".platform-link");
+  if (!link) return;
+
+  const href = link.getAttribute("href");
+  const platformName = link.querySelector("span")?.textContent || "platform";
+
+  showNotification(`Opening ${platformName}... Listen to Gavanni's music!`);
+
+  // Only block default navigation for placeholder links (e.g., "#").
+  if (!href || href === "#") {
     e.preventDefault();
-    const link = e.target.closest(".platform-link");
-    const platformName = link.querySelector("span").textContent;
-
-    showNotification(`Opening ${platformName}... Listen to Gavanni's music!`);
-
-    // In a real application, these would link to actual music platforms
-    // window.open('https://open.spotify.com/artist/gavanni', '_blank');
   }
 });
 

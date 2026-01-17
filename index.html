@@ -13,9 +13,11 @@
       content="Gavanni, afro-pop, R&B, afrobeats, Nigerian artist, Utah music, Western pop"
     />
 
-    <!-- Fonts -->
+    <!-- Fonts - Premium Selection -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Pro:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
@@ -27,11 +29,39 @@
 
     <!-- AOS Animation Library -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <!-- GLightbox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-content">
+        <div class="vinyl-loader">
+          <div class="vinyl"></div>
+          <div class="vinyl-center"></div>
+        </div>
+        <h2 class="preloader-text">GAVANNI</h2>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
       <div class="nav-container">
@@ -60,6 +90,7 @@
       class="hero"
       style="background-image: url('New folder/gavanni hero section image.jpg')"
     >
+      <div id="particles-js" class="particles-container"></div>
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="container">
@@ -73,19 +104,6 @@
             Experience the soothing voice that brings modern afro-pop to Utah
             and beyond
           </p>
-          <div class="hero-image" data-aos="zoom-in" data-aos-delay="700">
-            <img
-              src="New folder/gavanni hero section image.jpg"
-              alt="Gavanni Hero"
-              style="
-                width: 100%;
-                max-width: 400px;
-                border-radius: 20px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-                animation: heroFadeIn 2s ease;
-              "
-            />
-          </div>
           <div class="hero-buttons" data-aos="fade-up" data-aos-delay="800">
             <a href="#music" class="btn btn-primary">Listen Now</a>
             <a href="#about" class="btn btn-secondary">About Me</a>
@@ -378,9 +396,9 @@
                 alt="Afro Vibes Music Video"
               />
               <div class="video-overlay">
-                <button class="video-play-btn" data-video="afro-vibes">
+                <a href="https://www.youtube.com/@itsgavanni" class="glightbox video-play-btn" data-gallery="videos">
                   <i class="fas fa-play"></i>
-                </button>
+                </a>
               </div>
               <span class="video-badge">Featured</span>
             </div>
@@ -396,9 +414,9 @@
                 alt="Soulful Nights Video"
               />
               <div class="video-overlay">
-                <button class="video-play-btn" data-video="soulful-nights">
+                <a href="https://www.youtube.com/@itsgavanni" class="glightbox video-play-btn" data-gallery="videos">
                   <i class="fas fa-play"></i>
-                </button>
+                </a>
               </div>
             </div>
             <div class="video-info">
@@ -413,9 +431,9 @@
                 alt="Live Performance"
               />
               <div class="video-overlay">
-                <button class="video-play-btn" data-video="live-utah">
+                <a href="https://www.youtube.com/@itsgavanni" class="glightbox video-play-btn" data-gallery="videos">
                   <i class="fas fa-play"></i>
-                </button>
+                </a>
               </div>
             </div>
             <div class="video-info">
@@ -741,6 +759,11 @@
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
