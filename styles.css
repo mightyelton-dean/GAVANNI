@@ -732,75 +732,64 @@ section::before {
 
 .about-image {
   flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .image-wrapper {
   position: relative;
+  border-radius: 16px;
   overflow: hidden;
-  border-radius: 10px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-  height: 500px;
+  max-width: 480px;
+  width: 100%;
 }
 
-.image-slideshow {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.main-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Animated color-changing frame around about image */
+.image-wrapper::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px; /* frame thickness */
+  background: linear-gradient(135deg,
+    #f4a460,
+    #cd853f,
+    #ff6f61,
+    #9b59b6,
+    #3498db,
+    #f4a460
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: aboutFrameGlow 10s linear infinite;
 }
 
-.main-image.active {
-  opacity: 1;
+@keyframes aboutFrameGlow {
+  0% {
+    filter: hue-rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    filter: hue-rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    filter: hue-rotate(360deg);
+    opacity: 0.7;
+  }
 }
 
-.image-wrapper img {
+.about-main-image {
   width: 100%;
+  height: auto;
   display: block;
-  transition: transform 0.6s ease;
-}
-
-.image-wrapper:hover img {
-  transform: scale(1.05);
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition-speed) ease;
-}
-
-.image-wrapper:hover .image-overlay {
-  opacity: 1;
-}
-
-.play-button {
-  color: white;
-  font-size: 4rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.play-button:hover {
-  transform: scale(1.2);
-  color: var(--primary-color);
+  object-fit: cover;
 }
 
 .about-text {

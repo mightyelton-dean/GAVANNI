@@ -164,9 +164,9 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     delay: 0.5
   });
 
-  // Section reveal animations
+  // Section reveal animations (skip About section to keep it static)
   gsap.utils.toArray('section').forEach((section, index) => {
-    if (index > 0) {
+    if (index > 0 && section.id !== 'about') {
       gsap.from(section, {
         scrollTrigger: {
           trigger: section,
@@ -767,30 +767,6 @@ function animateCounter(element) {
   }, 16);
 }
 
-// Image Slideshow for Main Gavanni Photo
-function setupImageSlideshow() {
-  const images = document.querySelectorAll(".main-image");
-  if (images.length === 0) return;
-
-  let currentImageIndex = 0;
-
-  // Function to switch to next image
-  function switchImage() {
-    // Remove active class from current image
-    images[currentImageIndex].classList.remove("active");
-
-    // Move to next image (loop back to 0 if at end)
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-
-    // Add active class to new image
-    images[currentImageIndex].classList.add("active");
-  }
-
-  // For now, we'll use the same image but you can add different images later
-  // Switch every 2 seconds
-  setInterval(switchImage, 2000);
-}
-
 // Lazy Loading Images
 function setupLazyLoading() {
   const images = document.querySelectorAll('img[data-src]');
@@ -826,7 +802,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupParallax();
   setupLoadingAnimation();
   setupStatsCounter();
-  setupImageSlideshow();
 
   // Initialize first track
   updateCurrentTrack(0);
@@ -908,6 +883,33 @@ document.addEventListener("click", (e) => {
       // window.open('https://tickets.com/gavanni-concert', '_blank');
     }
   }
+});
+
+// Merch checkout handlers
+// TODO: Replace these placeholder URLs with real checkout/payment links
+// from your payment provider (e.g., Stripe Payment Links, PayPal, Shopify, etc.).
+const merchCheckoutLinks = {
+  tee: "https://your-payment-provider.com/checkout/gavanni-tee",
+  hat: "https://your-payment-provider.com/checkout/gavanni-hat",
+  cd: "https://your-payment-provider.com/checkout/gavanni-signed-cd",
+};
+
+document.addEventListener("click", (e) => {
+  const button = e.target.closest(".merch-buy-btn");
+  if (!button) return;
+
+  const productId = button.getAttribute("data-product-id");
+  const checkoutUrl = merchCheckoutLinks[productId];
+
+  if (!checkoutUrl) {
+    showNotification("Checkout link not configured yet for this item.", "error");
+    return;
+  }
+
+  showNotification("Redirecting to secure checkout...", "success");
+
+  // Open the hosted checkout page in a new tab
+  window.open(checkoutUrl, "_blank");
 });
 
 console.log("🎵 Gavanni Music Website Loaded Successfully! 🎵");
