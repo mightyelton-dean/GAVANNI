@@ -289,7 +289,7 @@
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--primary-color);
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem; /* space between merch price and Buy button */
   text-shadow: 0 0 10px rgba(244, 164, 96, 0.3);
   letter-spacing: 0.05em;
 }
@@ -1226,6 +1226,9 @@ section::before {
 
 .ticket-info {
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .price {
@@ -1233,6 +1236,7 @@ section::before {
   font-size: 1.5rem;
   font-weight: 800;
   margin-right: 1.5rem;
+  margin-bottom: 0.9rem; /* more space between price and button */
   letter-spacing: 0.02em;
 }
 
